@@ -2,4 +2,4 @@
 
 ## TODO's
 
-- [] Supprimer les fichiers `.create` dans chaque dossier vide
+- [ ] Supprimer les fichiers `.create` dans chaque dossier vide
