@@ -11,7 +11,7 @@ class VideoModel:
                 ret, frame = self.cap.read()
                 return ret, cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             else:
-                print("Erreur: Impossible d'ouvrir la vidéo.")
+                print("Erreur: Impossible d'ouvrir la vidÃ©o.")
                 return False, None
         except:
             # messagebox.showerror(title='Alert', message='End of the video.')
