@@ -19,7 +19,7 @@ class VideoController:
             self.model.release()
         self.model = VideoModel(file_path)
         self.show_first_frame()
-        self.pause = True  # Assurez-vous que la vidéo reste en pause après avoir montré la première frame
+        self.pause = True
         
     def show_first_frame(self):
         # Récupère la première frame sans changer l'état de pause
@@ -55,8 +55,8 @@ class VideoController:
     def rewind_video(self):
         if self.model is not None:
             self.model.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-            self.pause = True  # Mettre en pause après retour au début
-            self.show_first_frame()  # Optionnel: montrer la première frame après le retour au début
+            self.pause = True
+            self.show_first_frame()
 
     def forward_video(self):
         if self.model is not None:

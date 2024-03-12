@@ -20,7 +20,7 @@ class VideoView:
         self.rewind_button = Button(buttons_frame, text="<<", command=self.controller.rewind_video)
         self.rewind_button.pack(side=LEFT, padx=5)
 
-        # Bouton "<1"
+        # Bouton "-1 frame"
         self.frame_back_button = Button(buttons_frame, text="<", command=self.controller.frame_back)
         self.frame_back_button.pack(side=LEFT, padx=5)
 
@@ -32,7 +32,7 @@ class VideoView:
         self.resume_button = Button(buttons_frame, text="Lire", command=self.controller.resume_video)
         self.resume_button.pack(side=LEFT, padx=5)
 
-        # Bouton "1>"
+        # Bouton "+1 frame"
         self.frame_forward_button = Button(buttons_frame, text=">", command=self.controller.frame_forward)
         self.frame_forward_button.pack(side=LEFT, padx=5)
 
@@ -45,7 +45,6 @@ class VideoView:
         self.window.config(menu=menu_bar)
 
         file_menu = Menu(menu_bar, tearoff=0)
-        # Assurez-vous que la commande appelle la méthode open_file_dialog du contrôleur
         file_menu.add_command(label="Ouvrir", command=self.controller.open_file_dialog)
         menu_bar.add_cascade(label="Fichier", menu=file_menu)
     
