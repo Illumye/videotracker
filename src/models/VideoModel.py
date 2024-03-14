@@ -4,6 +4,8 @@ class VideoModel:
     def __init__(self, filename):
         self.filename = filename
         self.cap = cv2.VideoCapture(self.filename)
+        self.points = []
+        self.origin = None
         
     def open(self, filename):
         self.filename = filename
@@ -26,3 +28,9 @@ class VideoModel:
     def release(self):
         if self.cap.isOpened():
             self.cap.release()
+
+    def get_points(self):
+        return self.points
+
+    def add_point(self, point):
+        self.points.append(point)

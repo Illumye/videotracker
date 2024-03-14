@@ -4,9 +4,9 @@ class FileRepo:
         self.__path = path
         
     def transformData2CSV(self, temps: list, points: list, sep: str) -> str:
-        csv_data = ""
+        csv_data = "Temps" + sep + "Position X" + sep + "Position Y\n"
         for time, point in zip(temps, points):
-            csv_data += f"{time}{sep}{point.getX()}{sep}{point.getY()}"
+            csv_data += f"{time}{sep}{point.getX()}{sep}{point.getY()}\n"
         return csv_data
     
     def export2CSV(self, temps: list, points: list, sep: str = ';'):

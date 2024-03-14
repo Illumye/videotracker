@@ -1,7 +1,10 @@
+from models.FileRepo import FileRepo
+from models.Point import Point
 from models.VideoModel import VideoModel
 import cv2
 import os
 from tkinter import filedialog
+import matplotlib.pyplot as plt
 
 class VideoController:
     def __init__(self, view, model, delay):
@@ -15,7 +18,7 @@ class VideoController:
         self.scale_point2 = None
         self.scale_points = []
         
-        self.origin = None 
+        self.tracking = True
     
     def open_file_dialog(self):
         file_path = filedialog.askopenfilename(initialdir="./resources/videos")  # Ouvre le dialogue de sélection de fichier
@@ -110,6 +113,14 @@ class VideoController:
         ret, frame = self.model.get_frame()
         if ret:
             self.view.show_frame(frame)
+            self.view.draw_point(self.model.origin[0], self.model.origin[1], "black", "origin")
+            self.view.draw_axes(self.model.origin)
+            self.view.draw_point(self.scale_point1[0], self.scale_point1[1], "yellow", "scale_point")
+            self.view.draw_point(self.scale_point2[0], self.scale_point2[1], "yellow", "scale_point")
+            self.view.draw_scale(self.scale_points)
+            for point in self.model.points:
+                color = "red" if point == self.model.points[-1] else "green"
+                self.view.draw_point(point.getX(), point.getY(), color, "points")
             if back:
                 # Après avoir montré la frame précédente, ajuster pour rester sur cette frame
                 current_pos = int(self.model.cap.get(cv2.CAP_PROP_POS_FRAMES))
@@ -124,7 +135,7 @@ class VideoController:
         if self.scale_point1 is not None and self.scale_point2 is not None:
             return
         
-        self.view.draw_point(event.x, event.y)
+        self.view.draw_point(event.x, event.y, "yellow", "scale_point")
         
         if self.scale_point1 is None:
             self.scale_point1 = (event.x, event.y)
@@ -133,6 +144,7 @@ class VideoController:
             self.scale_point2 = (event.x, event.y)
             self.scale_points.append(self.scale_point2)
             self.view.open_scale_dialog()
+        self.view.draw_scale(self.scale_points)
 
     def reset_scale_points(self):
         self.scale_point1 = None
@@ -141,4 +153,97 @@ class VideoController:
         self.view.reset_points()
         
     def set_origin(self, event):
-        self.origin = (event.x, event.y)
+        if self.model is None:
+            return
+        if self.model.origin is None:
+            self.model.origin = (event.x, event.y)
+            self.view.draw_point(event.x, event.y, "black", "origin")
+            self.view.draw_axes(self.model.origin)
+    
+    def track_object(self, event):
+        if self.model is None:
+            return
+        current_pos = int(self.model.cap.get(cv2.CAP_PROP_POS_FRAMES))
+        total_frames = int(self.model.cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        if current_pos >= total_frames - 1:
+            self.view.alert_message("Alerte", "Fin de la vidéo.")
+            return
+        if not self.tracking:
+            return
+        if self.model.origin is None:
+            return
+        if self.model.points:
+            last_point = self.model.points[-1]
+            self.view.draw_point(last_point.getX(), last_point.getY(), "green", "points")
+        point = Point(event.x, event.y, current_pos)
+        self.model.points.append(point)
+        self.view.draw_point(point.getX(), point.getY(), "red", "points")
+        self.frame_forward()
+        self.view.update_table(self.model.points, self.model.origin)
+    
+    def stop_tracking(self):
+        self.tracking = False
+        self.view.alert_message("Information", "Le pointage a été arrêté manuellement.")
+    
+    def update_table(self):
+        if self.model is not None:
+            points = self.model.get_points()
+            self.view.update_table(points, self.model.origin)
+    
+    def add_point(self, point):
+        self.model.add_point(point)
+        self.view.update_table(self.model.get_points(), self.model.origin)
+        
+    def show_yx_graph(self):
+        points = self.points
+        
+        x = [point.getX() for point in points]
+        y = [point.getY() for point in points]
+        
+        plt.figure()
+        plt.plot(x, y)
+        plt.title('Graphique y(x)')
+        plt.xlabel('x')
+        plt.ylabel('y')
+        
+        plt.show()
+        
+    def show_xt_graph(self):
+        points = self.points
+        
+        t = [point.getTime() for point in points]
+        x = [point.getX() for point in points]
+        
+        plt.figure()
+        plt.plot(t, x)
+        plt.title('Graphique x(t)')
+        plt.xlabel('t')
+        plt.ylabel('x')
+        
+        plt.show()
+    
+    def show_yt_graph(self):
+        points = self.points
+        
+        t = [point.getTime() for point in points]
+        y = [point.getY() for point in points]
+        
+        plt.figure()
+        plt.plot(t, y)
+        plt.title('Graphique y(t)')
+        plt.xlabel('t')
+        plt.ylabel('y')
+        
+        plt.show()
+    
+    def save_points_to_csv(self, file_name, path):
+        file_repo = FileRepo(file_name, path)
+        temps = [point.getTime() for point in self.points]
+        points = [point for point in self.points]
+        file_repo.export2CSV(temps, points)
+        
+    def save_points_to_csv_dialog(self):
+        file_name = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Fichiers CSV", "*.csv")], initialdir="./resources/points")
+        if file_name:
+            path, file_name = os.path.split(file_name)
+            self.save_points_to_csv(file_name, path)
