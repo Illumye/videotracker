@@ -5,6 +5,12 @@ class VideoModel:
         self.filename = filename
         self.cap = cv2.VideoCapture(self.filename)
         
+    def open(self, filename):
+        self.filename = filename
+        self.cap = cv2.VideoCapture(self.filename)
+        if not self.cap.isOpened():
+            print("Erreur: Impossible d'ouvrir la vidéo.")
+        
     def get_frame(self):
         try:
             if self.cap.isOpened():

@@ -1,24 +1,40 @@
 from models.VideoModel import VideoModel
 import cv2
+import os
 from tkinter import filedialog
 
 class VideoController:
     def __init__(self, view, model, delay):
         self.view = view
-        self.model = model 
+        self.model = None 
         self.delay = delay
         self.pause = True  # La vidéo est en pause par défaut
+        
+        # Points pour l'échelle
+        self.scale_point1 = None
+        self.scale_point2 = None
+        self.scale_points = []
+        
+        self.origin = None 
     
     def open_file_dialog(self):
-        file_path = filedialog.askopenfilename()  # Ouvre le dialogue de sélection de fichier
+        file_path = filedialog.askopenfilename(initialdir="./resources/videos")  # Ouvre le dialogue de sélection de fichier
         if file_path:
             self.open_video(file_path)
     
     def open_video(self, file_path):
+        self.model = VideoModel(file_path)
+        self.model.open(file_path)
+        video_name = os.path.split(file_path)[1]
+        video_width = int(self.model.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        video_height = int(self.model.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         if self.model is not None:
             self.model.release()
         self.model = VideoModel(file_path)
+        self.view.window.title(f"Video Tracker - {video_name}")
+        self.view.resize_video(video_width, video_height)
         self.show_first_frame()
+        self.view.rearrange_widgets()
         self.pause = True
         
     def show_first_frame(self):
@@ -100,3 +116,29 @@ class VideoController:
                 self.model.cap.set(cv2.CAP_PROP_POS_FRAMES, current_pos - 1)
         else:
             self.view.alert_message("Erreur", "Impossible de naviguer dans la vidéo.")
+
+    def set_scale(self, event):
+        if self.model is None:
+            return
+        
+        if self.scale_point1 is not None and self.scale_point2 is not None:
+            return
+        
+        self.view.draw_point(event.x, event.y)
+        
+        if self.scale_point1 is None:
+            self.scale_point1 = (event.x, event.y)
+            self.scale_points.append(self.scale_point1)
+        else:
+            self.scale_point2 = (event.x, event.y)
+            self.scale_points.append(self.scale_point2)
+            self.view.open_scale_dialog()
+
+    def reset_scale_points(self):
+        self.scale_point1 = None
+        self.scale_point2 = None
+        self.scale_points = []
+        self.view.reset_points()
+        
+    def set_origin(self, event):
+        self.origin = (event.x, event.y)
