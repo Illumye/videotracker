@@ -9,7 +9,7 @@ class FileRepo:
             csv_data += f"{time}{sep}{point.getX()}{sep}{point.getY()}"
         return csv_data
     
-    def export2CSV(self, temps: list, points: list, sep: str):
+    def export2CSV(self, temps: list, points: list, sep: str = ';'):
         csv_data = self.transformData2CSV(temps, points, sep)
         with open(f"{self.__path}/{self.__file_name}", "w") as file:
             file.write(csv_data)
