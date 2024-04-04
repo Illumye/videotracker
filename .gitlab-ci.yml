@@ -1,0 +1,25 @@
+default:
+  tags:
+    - CREMI
+    - Focal/Fossa
+
+stages:
+  - build
+  - test
+  - coverage
+
+build-job1:
+  stage: build
+  script:
+    - pip install coverage
+  
+test-job1:
+  stage: test
+  script:
+    - python -m unittest discover -s tests -p "test_*.py"
+
+coverage-job1:
+  stage: coverage
+  script:
+    - coverage run -m unittest discover -s tests -p "test_*.py"
+    - coverage report -m

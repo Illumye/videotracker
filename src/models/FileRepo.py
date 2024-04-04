@@ -1,4 +1,4 @@
-from models.Point import Point
+from src.models.Point import Point
 
 class FileRepo:
     def __init__(self, file_name, path):

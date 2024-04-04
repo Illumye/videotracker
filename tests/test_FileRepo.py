@@ -2,7 +2,7 @@ import unittest
 from src.models.FileRepo import FileRepo
 from src.models.Point import Point
 
-class TestFileRepo(unittest.TestCase):
+class test_FileRepo(unittest.TestCase):
     def setUp(self):
         self.file_repo = FileRepo("test.csv", "./tests")
         self.points = [Point(1, 2, 1), Point(3, 4, 2), Point(5, 6, 3)]
