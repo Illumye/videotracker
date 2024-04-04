@@ -188,10 +188,6 @@ class VideoController:
         self.tracking = False
         self.view.alert_message("Information", "Le pointage a été arrêté manuellement.")
     
-    def update_table(self):
-        if self.model is not None:
-            points = self.model.points
-            self.view.update_table(points, self.origin)
     
     def add_point(self, point):
         self.model.points.append(point)

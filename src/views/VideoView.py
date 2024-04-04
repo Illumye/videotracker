@@ -162,6 +162,9 @@ class VideoView:
             if self.model is not None:
                 self.update_table(self.model.points, self.model.origin)
             self.table_window.protocol("WM_DELETE_WINDOW", self.close_table)
+        else:
+            if self.model is not None:
+                self.update_table(self.model.points, self.model.origin)
             
     def close_table(self):
         self.table_window.destroy()
