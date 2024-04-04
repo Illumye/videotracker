@@ -16,7 +16,7 @@ build-job1:
 test-job1:
   stage: test
   script:
-    - python -m unittest discover -s tests -p "test_*.py"
+    - python3 -m unittest discover -s tests -p "test_*.py"
 
 coverage-job1:
   stage: coverage
