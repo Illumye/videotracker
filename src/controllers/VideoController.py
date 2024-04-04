@@ -13,6 +13,9 @@ class VideoController:
         self.delay = delay
         self.pause = True  # La vidéo est en pause par défaut
         
+        self.points = self.model.points if self.model is not None else []
+        self.origin = self.model.origin if self.model is not None else None
+        
         # Points pour l'échelle
         self.scale_point1 = None
         self.scale_point2 = None
@@ -113,8 +116,8 @@ class VideoController:
         ret, frame = self.model.get_frame()
         if ret:
             self.view.show_frame(frame)
-            self.view.draw_point(self.model.origin[0], self.model.origin[1], "black", "origin")
-            self.view.draw_axes(self.model.origin)
+            self.view.draw_point(self.origin[0], self.origin[1], "black", "origin")
+            self.view.draw_axes(self.origin)
             self.view.draw_point(self.scale_point1[0], self.scale_point1[1], "yellow", "scale_point")
             self.view.draw_point(self.scale_point2[0], self.scale_point2[1], "yellow", "scale_point")
             self.view.draw_scale(self.scale_points)
@@ -155,10 +158,10 @@ class VideoController:
     def set_origin(self, event):
         if self.model is None:
             return
-        if self.model.origin is None:
-            self.model.origin = (event.x, event.y)
+        if self.origin is None:
+            self.origin = (event.x, event.y)
             self.view.draw_point(event.x, event.y, "black", "origin")
-            self.view.draw_axes(self.model.origin)
+            self.view.draw_axes(self.origin)
     
     def track_object(self, event):
         if self.model is None:
@@ -170,7 +173,7 @@ class VideoController:
             return
         if not self.tracking:
             return
-        if self.model.origin is None:
+        if self.origin is None:
             return
         if self.model.points:
             last_point = self.model.points[-1]
@@ -179,7 +182,7 @@ class VideoController:
         self.model.points.append(point)
         self.view.draw_point(point.getX(), point.getY(), "red", "points")
         self.frame_forward()
-        self.view.update_table(self.model.points, self.model.origin)
+        self.view.update_table(self.model.points, self.origin)
     
     def stop_tracking(self):
         self.tracking = False
@@ -187,15 +190,15 @@ class VideoController:
     
     def update_table(self):
         if self.model is not None:
-            points = self.model.get_points()
-            self.view.update_table(points, self.model.origin)
+            points = self.model.points
+            self.view.update_table(points, self.origin)
     
     def add_point(self, point):
-        self.model.add_point(point)
-        self.view.update_table(self.model.get_points(), self.model.origin)
+        self.model.points.append(point)
+        self.view.update_table(self.model.points, self.origin)
         
     def show_yx_graph(self):
-        points = self.points
+        points = self.model.points
         
         x = [point.getX() for point in points]
         y = [point.getY() for point in points]
@@ -209,7 +212,7 @@ class VideoController:
         plt.show()
         
     def show_xt_graph(self):
-        points = self.points
+        points = self.model.points
         
         t = [point.getTime() for point in points]
         x = [point.getX() for point in points]
@@ -223,7 +226,7 @@ class VideoController:
         plt.show()
     
     def show_yt_graph(self):
-        points = self.points
+        points = self.model.points
         
         t = [point.getTime() for point in points]
         y = [point.getY() for point in points]
@@ -238,8 +241,8 @@ class VideoController:
     
     def save_points_to_csv(self, file_name, path):
         file_repo = FileRepo(file_name, path)
-        temps = [point.getTime() for point in self.points]
-        points = [point for point in self.points]
+        temps = [point.getTime() for point in self.model.points]
+        points = [point for point in self.model.points]
         file_repo.export2CSV(temps, points)
         
     def save_points_to_csv_dialog(self):

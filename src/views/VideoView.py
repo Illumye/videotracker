@@ -7,7 +7,7 @@ class VideoView:
     def __init__(self, window, window_title, width, height, controller, model):
         self.window = window
         self.window.title(window_title)
-        self.controller = controller  # Assurez-vous que ceci est défini avant de setup_menu
+        self.controller = controller
         self.model = model
         self.canvas = Canvas(window, width=width, height=height)
         self.canvas.config(bd=2, relief="solid")
@@ -151,8 +151,6 @@ class VideoView:
 
     def open_table(self):
         print("Open table")
-        if self.model is None or self.model.points is None or self.model.origin is None:
-            return
         if not hasattr(self, 'table_window') or not self.table_window.winfo_exists():
             self.table_window = Toplevel(self.window)
             self.table_window.title("Valeurs")
@@ -161,7 +159,8 @@ class VideoView:
             self.table.heading("Position X", text="Position X")
             self.table.heading("Position Y", text="Position Y")
             self.table.pack()
-            self.update_table(self.model.points, self.model.origin)
+            if self.model is not None:
+                self.update_table(self.model.points, self.model.origin)
             self.table_window.protocol("WM_DELETE_WINDOW", self.close_table)
             
     def close_table(self):

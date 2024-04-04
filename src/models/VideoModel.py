@@ -1,10 +1,11 @@
 import cv2
+from models.Point import Point
 
 class VideoModel:
     def __init__(self, filename):
         self.filename = filename
         self.cap = cv2.VideoCapture(self.filename)
-        self.points = []
+        self.points: list[Point] = []
         self.origin = None
         
     def open(self, filename):
@@ -32,5 +33,5 @@ class VideoModel:
     def get_points(self):
         return self.points
 
-    def add_point(self, point):
+    def add_point(self, point: Point):
         self.points.append(point)
