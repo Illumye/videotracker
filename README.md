@@ -75,4 +75,13 @@ Ce projet est sous licence MIT.
 
 ## TODO's
 
-- [ ] Supprimer les fichiers `.create` dans chaque dossier vide
+- [x] Supprimer les fichiers `.create` dans chaque dossier vide
+- [ ] Issue #1
+    - [x] Task #7 (self.points dans le contrôleur -> modèle)
+    - [x] Task #8 (self.origin dans le contrôleur -> modèle)
+    - [x] Task #9 (Réaffichage du tableau lorsque l'utilisateur le demande)
+    - [ ] Task #10 (Mise à jour de la fenêtre du tableau des points lors de l'ouverture )
+- [ ] Issue #2 (Tests)
+    - [x] Test : FileRepo
+    - [ ] Test : Point
+    - [ ] Test : VideoController
