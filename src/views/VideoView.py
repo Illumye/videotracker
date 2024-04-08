@@ -147,7 +147,7 @@ class VideoView:
             relative_x = point.getX() - origin[0]
             relative_y = origin[1] - point.getY()
             time = point.getTime() + 1
-            self.table.insert("", "end", values=(time, relative_x, relative_y))
+            self.table.insert("", "end", values=(time, relative_y, relative_x))
 
     def open_table(self):
         print("Open table")
