@@ -3,3 +3,4 @@
 /src/views/__pycache__/*
 /tests/__pycache__/*
 .coverage
+.vscode
