@@ -116,11 +116,13 @@ class VideoController:
         ret, frame = self.model.get_frame()
         if ret:
             self.view.show_frame(frame)
-            self.view.draw_point(self.origin[0], self.origin[1], "black", "origin")
-            self.view.draw_axes(self.origin)
-            self.view.draw_point(self.scale_point1[0], self.scale_point1[1], "yellow", "scale_point")
-            self.view.draw_point(self.scale_point2[0], self.scale_point2[1], "yellow", "scale_point")
-            self.view.draw_scale(self.scale_points)
+            if self.origin is not None:
+                self.view.draw_point(self.origin[0], self.origin[1], "black", "origin")
+                self.view.draw_axes(self.origin)
+            if self.scale_point1 is not None and self.scale_point2 is not None:
+                self.view.draw_point(self.scale_point1[0], self.scale_point1[1], "yellow", "scale_point")
+                self.view.draw_point(self.scale_point2[0], self.scale_point2[1], "yellow", "scale_point")
+                self.view.draw_scale(self.scale_points)
             for point in self.model.points:
                 color = "red" if point == self.model.points[-1] else "green"
                 self.view.draw_point(point.getX(), point.getY(), color, "points")
