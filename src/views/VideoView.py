@@ -25,19 +25,19 @@ class VideoView:
         self.rewind_button.pack(side=LEFT, padx=5)
 
         # Bouton "-1 frame"
-        self.frame_back_button = Button(self.buttons_frame, text="<", command=self.controller.frame_back)
+        self.frame_back_button = Button(self.buttons_frame, text="⏮", command=self.controller.frame_back)
         self.frame_back_button.pack(side=LEFT, padx=5)
 
         # Bouton "Pause"
-        self.pause_button = Button(self.buttons_frame, text="Pause", command=self.controller.pause_video)
+        self.pause_button = Button(self.buttons_frame, text="⏸", command=self.controller.pause_video)
         self.pause_button.pack(side=LEFT, padx=5)
 
         # Bouton "Lire"
-        self.resume_button = Button(self.buttons_frame, text="Lire", command=self.controller.resume_video)
+        self.resume_button = Button(self.buttons_frame, text="⏵", command=self.controller.resume_video)
         self.resume_button.pack(side=LEFT, padx=5)
 
         # Bouton "+1 frame"
-        self.frame_forward_button = Button(self.buttons_frame, text=">", command=self.controller.frame_forward)
+        self.frame_forward_button = Button(self.buttons_frame, text="⏭", command=self.controller.frame_forward)
         self.frame_forward_button.pack(side=LEFT, padx=5)
 
         # Bouton "Fin"
