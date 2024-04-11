@@ -3,9 +3,9 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"\\..\\src\\models")
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"\\..\\src")
-import models.FileRepo as FileRepo
-import models.VideoModel as VideoModel
-import models.Point as Point
+import src.models.FileRepo as FileRepo
+import src.models.VideoModel as VideoModel
+import src.models.Point as Point
 
 
 class TestFileRepo(unittest.TestCase):
