@@ -101,7 +101,7 @@ Ce projet est sous licence MIT.
     - [x] Task #8 (self.origin dans le contrôleur -> modèle)
     - [x] Task #9 (Réaffichage du tableau lorsque l'utilisateur le demande)
     - [ ] Task #10 (Mise à jour de la fenêtre du tableau des points lors de l'ouverture )
-- [ ] Issue #2 (Tests)
+- [x] Issue #2 (Tests)
     - [x] Test : FileRepo
-    - [ ] Test : Point
-    - [ ] Test : VideoController
+    - [x] Test : Point
+    - [x] Test : VideoController
