@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from tkinter import *
 from controllers.VideoController import VideoController
 from models.VideoModel import VideoModel

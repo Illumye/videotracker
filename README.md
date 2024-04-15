@@ -1,5 +1,18 @@
 # VideoTracker_G4
 
+## Sommaire
+
+- [Description](#description)
+- [Requirements](#requirements)
+- [Installation](#installation)
+    - [OpenCV](#opencv)
+    - [Numpy](#numpy)
+    - [Matplotlib](#matplotlib)
+    - [Tkinter](#tkinter)
+- [Utilisation](#utilisation)
+- [Licence](#licence)
+- [TODO's](#todos)
+
 ## Description
 
 Ce projet est un outil de tracking de vidéos. Il permet de suivre les mouvements d'un objet dans une vidéo.
@@ -67,6 +80,13 @@ sudo apt-get install python3-tk
 
 ```bash
 python3 src/application.py
+```
+
+ou
+
+```bash
+chmod +x src/application.py
+./src/application.py
 ```
 
 ## Licence
