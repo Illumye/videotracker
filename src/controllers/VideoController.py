@@ -2,13 +2,14 @@ import tkinter
 from models.FileRepo import FileRepo
 from models.Point import Point
 from models.VideoModel import VideoModel
+from views.VideoView import VideoView
 import cv2
 import os
 from tkinter import filedialog
 import matplotlib.pyplot as plt
 
 class VideoController:
-    def __init__(self, view, model, delay):
+    def __init__(self, view: VideoView, model: VideoModel, delay: int):
         """
         Constructeur de la classe VideoController.
 
@@ -17,10 +18,10 @@ class VideoController:
             model (VideoModel): Le modèle de la vidéo.
             delay (int): Le délai entre chaque frame.
         """
-        self.view = view
-        self.model = None 
-        self.delay = delay
-        self.pause = True  # La vidéo est en pause par défaut
+        self.view: VideoView = view
+        self.model: VideoModel | None = None 
+        self.delay: int = delay
+        self.pause: bool = True  # La vidéo est en pause par défaut
         
         self.points = self.model.points if self.model is not None else []
         self.origin = self.model.origin if self.model is not None else None
@@ -262,7 +263,7 @@ class VideoController:
         if self.model.points:
             last_point = self.model.points[-1]
             self.view.draw_point(last_point.getX(), last_point.getY(), "green", "points")
-        point = Point(event.x, event.y, current_pos)
+        point = Point(event.x, event.y, current_pos+1)
         self.model.points.append(point)
         self.view.draw_point(point.getX(), point.getY(), "red", "points")
         self.frame_forward()

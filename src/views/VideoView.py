@@ -220,7 +220,7 @@ class VideoView:
         for point in points:
             relative_x = point.getX() - origin[0]
             relative_y = origin[1] - point.getY()
-            time = point.getTime() + 1
+            time = point.getTime()
             self.table.insert("", "end", values=(time, relative_y, relative_x))
 
     def open_table(self):
