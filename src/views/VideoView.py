@@ -4,7 +4,18 @@ from tkinter import ttk
 import PIL.Image, PIL.ImageTk
 
 class VideoView:
-    def __init__(self, window, window_title, width, height, controller, model):
+    def __init__(self, window: Tk, window_title: str, width: int, height: int, controller, model):
+        """
+        Constructeur de la classe VideoView.
+
+        Args:
+            window (Tk): La fenêtre principale.
+            window_title (str): Le titre de la fenêtre.
+            width (int): La largeur de la fenêtre.
+            height (int): La hauteur de la fenêtre.
+            controller (VideoController): Le contrôleur de la vidéo.
+            model (VideoModel): Le modèle de la vidéo.
+        """
         self.window = window
         self.window.title(window_title)
         self.controller = controller
@@ -51,11 +62,17 @@ class VideoView:
         self.canvas.bind("<Button-1>", self.controller.track_object)
         
     def open_scale_dialog(self):
+        """
+        Ouvre une boîte de dialogue pour définir l'échelle.
+        """
         scale = simpledialog.askfloat("Échelle", "Entrez la distance réelle entre les deux points (en mètres) :")
         if scale is not None:
             self.controller.scale = scale
         
     def setup_menu(self):
+        """
+        Crée un menu pour l'application.
+        """
         menu_bar = Menu(self.window)
         self.window.config(menu=menu_bar)
 
@@ -88,6 +105,9 @@ class VideoView:
         
         
     def shortcut_key(self):
+        """
+        Définit les raccourcis clavier pour l'application.
+        """
         self.window.bind("<Control-o>", lambda e: self.controller.open_file_dialog()) # Ouvrir un fichier vidéo
         self.window.bind("<Control-q>", lambda e: self.window.quit()) # Quitter l'application
         self.window.bind("<space>", lambda e: self.controller.resume_video() if self.controller.pause else self.controller.pause_video()) # Lire/Pause la vidéo
@@ -98,45 +118,99 @@ class VideoView:
         self.window.bind("<Escape>", lambda e: self.controller.stop_tracking())
     
     def show_frame(self, frame):
+        """
+        Affiche une image dans le canevas.
+        """
         self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
         self.canvas.create_image(0, 0, image = self.photo, anchor = NW)
 
-    def alert_message(self, title, message):
+    def alert_message(self, title: str, message: str):
+        """
+        Affiche une boîte de dialogue d'alerte.
+
+        Args:
+            title (str): Le titre de la boîte de dialogue.
+            message (str): Le message de la boîte de dialogue.
+        """
         messagebox.showerror(title=title, message=message)
     
     def open_file(self):
+        """
+        Ouvre une boîte de dialogue pour sélectionner un fichier vidéo.
+        """
         file_path = filedialog.askopenfilename()
         if file_path:
             self.controller.open_video(file_path)
 
-    def resize_video(self, width, height):
+    def resize_video(self, width: int, height: int):
+        """
+        Redimensionne le canevas.
+
+        Args:
+            width (int): La largeur du canevas.
+            height (int): La hauteur du canevas.
+        """
         self.canvas.config(width=width, height=height)
     
     def rearrange_widgets(self):
+        """
+        Réorganise les widgets dans la fenêtre.
+        """
         self.canvas.pack_forget()
         self.buttons_frame.pack_forget()
         self.canvas.pack()
         self.buttons_frame.pack(side=BOTTOM, pady=10)
         
-    def draw_point(self, x, y, color, tags):
+    def draw_point(self, x: int, y: int, color: str, tags: str):
+        """
+        Dessine un point sur le canevas.
+
+        Args:
+            x (int): La coordonnée x du point.
+            y (int): La coordonnée y du point.
+            color (str): La couleur du point.
+            tags (str): Les tags du point.
+        """
         radius = 5
         self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius, fill=color, tags=tags)
     
-    def draw_scale(self, points):
+    def draw_scale(self, points: list):
+        """
+        Dessine l'échelle sur le canevas.
+        
+        Args:
+            points (list): La liste des points de l'échelle.
+        """
         if len(points) < 2:
             return
         self.canvas.create_line(points[0][0], points[0][1], points[1][0], points[1][1], fill="yellow", tags="scale_point")
     
-    def draw_axes(self, origin):
+    def draw_axes(self, origin: tuple):
+        """
+        Dessine les axes sur le canevas.
+
+        Args:
+            origin (tuple): Les coordonnées de l'origine.
+        """
         # Dessine l'axe des x
         self.canvas.create_line(origin[0], origin[1], self.canvas.winfo_width(), origin[1], fill="black")
         # Dessine l'axe des y
         self.canvas.create_line(origin[0], origin[1], origin[0], 0, fill="black")
     
     def reset_points(self):
+        """
+        Réinitialise les points sur le canevas.
+        """
         self.canvas.delete("scale_point")
         
-    def update_table(self, points, origin):
+    def update_table(self, points: list, origin: tuple):
+        """
+        Met à jour le tableau des valeurs.
+
+        Args:
+            points (list): La liste des points.
+            origin (tuple): Les coordonnées de l'origine.
+        """
         if not hasattr(self, 'table_window') or not self.table_window.winfo_exists():
             return
         else:
@@ -150,6 +224,9 @@ class VideoView:
             self.table.insert("", "end", values=(time, relative_y, relative_x))
 
     def open_table(self):
+        """
+        Ouvre une boîte de dialogue pour afficher les valeurs.
+        """
         print("Open table")
         if not hasattr(self, 'table_window') or not self.table_window.winfo_exists():
             self.table_window = Toplevel(self.window)
@@ -167,4 +244,7 @@ class VideoView:
                 self.update_table(self.model.points, self.model.origin)
             
     def close_table(self):
+        """
+        Ferme la boîte de dialogue des valeurs.
+        """
         self.table_window.destroy()

@@ -1,3 +1,4 @@
+import tkinter
 from models.FileRepo import FileRepo
 from models.Point import Point
 from models.VideoModel import VideoModel
@@ -8,6 +9,14 @@ import matplotlib.pyplot as plt
 
 class VideoController:
     def __init__(self, view, model, delay):
+        """
+        Constructeur de la classe VideoController.
+
+        Args:
+            view (VideoView): La vue de la vidéo.
+            model (VideoModel): Le modèle de la vidéo.
+            delay (int): Le délai entre chaque frame.
+        """
         self.view = view
         self.model = None 
         self.delay = delay
@@ -24,11 +33,20 @@ class VideoController:
         self.tracking = True
     
     def open_file_dialog(self):
+        """
+        Ouvre une boîte de dialogue pour sélectionner un fichier vidéo
+        """
         file_path = filedialog.askopenfilename(initialdir="./resources/videos")  # Ouvre le dialogue de sélection de fichier
         if file_path:
             self.open_video(file_path)
     
     def open_video(self, file_path):
+        """
+        Ouvre une vidéo à partir du chemin du fichier spécifié
+
+        Args:
+            file_path (str): Le chemin du fichier vidéo à ouvrir
+        """
         self.model = VideoModel(file_path)
         self.model.open(file_path)
         video_name = os.path.split(file_path)[1]
@@ -44,6 +62,9 @@ class VideoController:
         self.pause = True
         
     def show_first_frame(self):
+        """
+        Affiche la première frame de la vidéo sans changer l'état de pause
+        """
         # Récupère la première frame sans changer l'état de pause
         ret, frame = self.model.get_frame()
         if ret:
@@ -53,6 +74,9 @@ class VideoController:
         self.model.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Réinitialise le capteur à la première frame
 
     def play_video(self):
+        """
+        Lit la vidéo frame par frame et affiche chaque frame dans la fenêtre
+        """
         if self.pause or self.model is None:  # Ajouter cette vérification pour éviter de jouer une vidéo non chargée
             return
         ret, frame = self.model.get_frame()
@@ -73,24 +97,39 @@ class VideoController:
             self.view.alert_message("Alerte", "Fin de la vidéo.")
 
     def pause_video(self):
+        """
+        Met en pause la lecture de la vidéo
+        """
         self.pause = True
 
     def resume_video(self):
+        """
+        Reprend la lecture de la vidéo si elle est en pause
+        """
         if self.model is not None and self.pause:
             self.pause = False
             self.play_video()
 
     def release_video(self):
+        """
+        Libère les ressources de la vidéo
+        """
         if self.model is not None and self.model.cap.isOpened():
             self.model.release()
             
     def rewind_video(self):
+        """
+        Rembobine la vidéo pour revenir à la première frame
+        """
         if self.model is not None:
             self.model.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
             self.pause = True
             self.show_first_frame()
 
     def forward_video(self):
+        """
+        Avance la vidéo pour aller à la dernière frame
+        """
         if self.model is not None:
             # Réinitialiser la vidéo pour s'assurer qu'elle part du début
             self.model.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
@@ -110,6 +149,9 @@ class VideoController:
             else:
                 self.view.alert_message("Erreur", "Impossible de trouver la dernière frame de la vidéo.")
     def frame_back(self):
+        """
+        Recule d'une frame dans la vidéo
+        """
         if self.model is not None and self.pause:
             # Reculer d'une frame (doit ajuster car la lecture avance automatiquement de 1)
             current_pos = int(self.model.cap.get(cv2.CAP_PROP_POS_FRAMES))
@@ -118,11 +160,20 @@ class VideoController:
             self.show_current_frame(back=True)
 
     def frame_forward(self):
+        """
+        Avance d'une frame dans la vidéo
+        """
         if self.model is not None and self.pause:
             # Avancer d'une frame (la lecture avance automatiquement de 1 après get_frame)
             self.show_current_frame()
 
-    def show_current_frame(self, back=False):
+    def show_current_frame(self, back: bool=False):
+        """
+        Affiche la frame actuelle de la vidéo
+
+        Args:
+            back (bool): Indique si la frame précédente doit être affichée
+        """
         ret, frame = self.model.get_frame()
         if ret:
             self.view.show_frame(frame)
@@ -143,7 +194,13 @@ class VideoController:
         else:
             self.view.alert_message("Erreur", "Impossible de naviguer dans la vidéo.")
 
-    def set_scale(self, event):
+    def set_scale(self, event: tkinter.Event):
+        """
+        Définit les points pour l'échelle de la vidéo
+
+        Args:
+            event (tkinter.Event): L'événement de clic de souris
+        """
         if self.model is None:
             return
         
@@ -162,12 +219,21 @@ class VideoController:
         self.view.draw_scale(self.scale_points)
 
     def reset_scale_points(self):
+        """
+        Réinitialise les points d'échelle de la vidéo
+        """
         self.scale_point1 = None
         self.scale_point2 = None
         self.scale_points = []
         self.view.reset_points()
         
-    def set_origin(self, event):
+    def set_origin(self, event: tkinter.Event):
+        """
+        Définit l'origine de la vidéo
+
+        Args:
+            event (tkinter.Event): L'événement de clic de souris
+        """
         if self.model is None:
             return
         if self.origin is None:
@@ -175,7 +241,13 @@ class VideoController:
             self.view.draw_point(event.x, event.y, "black", "origin")
             self.view.draw_axes(self.origin)
     
-    def track_object(self, event):
+    def track_object(self, event: tkinter.Event):
+        """
+        Pointe un objet dans la vidéo
+
+        Args:
+            event (tkinter.Event): L'événement de clic de souris
+        """
         if self.model is None:
             return
         current_pos = int(self.model.cap.get(cv2.CAP_PROP_POS_FRAMES))
@@ -197,15 +269,27 @@ class VideoController:
         self.view.update_table(self.model.points, self.origin)
     
     def stop_tracking(self):
+        """
+        Arrête le pointage manuellement
+        """
         self.tracking = False
         self.view.alert_message("Information", "Le pointage a été arrêté manuellement.")
     
     
-    def add_point(self, point):
+    def add_point(self, point: Point):
+        """
+        Ajoute un point à la liste des points de la vidéo
+
+        Args:
+            point (Point): Le point à ajouter
+        """
         self.model.points.append(point)
         self.view.update_table(self.model.points, self.origin)
         
     def show_yx_graph(self):
+        """
+        Affiche le graphique y(x) des points de la vidéo
+        """
         points = self.model.points
         
         x = [point.getX() for point in points]
@@ -220,6 +304,9 @@ class VideoController:
         plt.show()
         
     def show_xt_graph(self):
+        """
+        Affiche le graphique x(t) des points de la vidéo
+        """
         points = self.model.points
         
         t = [point.getTime() for point in points]
@@ -234,6 +321,9 @@ class VideoController:
         plt.show()
     
     def show_yt_graph(self):
+        """
+        Affiche le graphique y(t) des points de la vidéo
+        """
         points = self.model.points
         
         t = [point.getTime() for point in points]
@@ -247,13 +337,23 @@ class VideoController:
         
         plt.show()
     
-    def save_points_to_csv(self, file_name, path):
+    def save_points_to_csv(self, file_name: str, path: str):
+        """
+        Exporte les points de la vidéo vers un fichier CSV
+
+        Args:
+            file_name (str): Le nom du fichier CSV
+            path (str): Le chemin du fichier CSV
+        """
         file_repo = FileRepo(file_name, path)
         temps = [point.getTime() for point in self.model.points]
         points = [point for point in self.model.points]
         file_repo.export2CSV(temps, points)
         
     def save_points_to_csv_dialog(self):
+        """
+        Ouvre une boîte de dialogue pour enregistrer les points de la vidéo dans un fichier CSV
+        """
         file_name = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Fichiers CSV", "*.csv")], initialdir="./resources/points")
         if file_name:
             path, file_name = os.path.split(file_name)
