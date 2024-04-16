@@ -30,63 +30,63 @@ Ce projet est un outil de tracking de vidéos. Il permet de suivre les mouvement
 ### OpenCV
 
 ```bash
-pip install opencv-python
+$ pip install opencv-python
 ```
 
 **Debian / Debian-based :**
 
 ```bash
-sudo apt-get install python3-opencv
+$ sudo apt-get install python3-opencv
 ```
 
 ### Numpy
 
 ```bash
-pip install numpy
+$ pip install numpy
 ```
 
 **Debian / Debian-based :**
 
 ```bash
-sudo apt-get install python3-numpy
+$ sudo apt-get install python3-numpy
 ```
 
 ### Matplotlib
 
 ```bash
-pip install matplotlib
+$ pip install matplotlib
 ```
 
 **Debian / Debian-based :**
 
 ```bash
-sudo apt-get install python3-matplotlib
+$ sudo apt-get install python3-matplotlib
 ```
 
 ### Tkinter
 
 ```bash
-pip install tk
+$ pip install tk
 ```
 
 **Debian / Debian-based :**
 
 ```bash
-sudo apt-get install python3-tk
+$ sudo apt-get install python3-tk
 ```
 
 ## Utilisation
 
 
 ```bash
-python3 src/application.py
+$ python3 src/application.py
 ```
 
 ou
 
 ```bash
-chmod +x src/application.py
-./src/application.py
+$ chmod +x src/application.py
+$ ./src/application.py
 ```
 
 ## Licence
