@@ -12,6 +12,7 @@ build-job1:
   stage: build
   script:
     - pip install coverage
+    - pip install pyvirtualdisplay
   
 test-job1:
   stage: test

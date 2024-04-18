@@ -1,14 +1,10 @@
 import unittest
-import _tkinter
+from pyvirtualdisplay import Display
 from unittest.mock import MagicMock, patch
 from tkinter import Tk, simpledialog, messagebox, filedialog, Canvas, Frame, Toplevel
 from src.views.VideoView import VideoView
 from src.models.Point import Point
 
-class CustomTclError(Exception):
-    pass
-
-@patch('_tkinter.TclError', CustomTclError)
 class TestVideoView(unittest.TestCase):
     def setUp(self):
         self.root = Tk()
@@ -139,4 +135,7 @@ class TestRerrangeWidgets(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    display = Display(visible=0, size=(800, 600))
+    display.start()
     unittest.main()
+    display.stop()
