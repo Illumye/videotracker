@@ -1,4 +1,5 @@
 import unittest
+import _tkinter
 from unittest.mock import MagicMock, patch
 from tkinter import Tk, simpledialog, messagebox, filedialog, Canvas, Frame, Toplevel
 from src.views.VideoView import VideoView
