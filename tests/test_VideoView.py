@@ -6,6 +6,8 @@ display = Display(visible=0, size=(800, 600))
 display.start()
 os.environ['DISPLAY'] = display.display
 
+print(os.environ['DISPLAY'])
+
 from unittest.mock import MagicMock, patch
 from tkinter import Tk, simpledialog, messagebox, filedialog, Canvas, Frame, Toplevel
 from src.views.VideoView import VideoView
