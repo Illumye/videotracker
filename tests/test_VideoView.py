@@ -90,7 +90,8 @@ class TestVideoView(unittest.TestCase):
         self.view.open_table()
         self.view.open_table()
 
-    def testUpdateTable(self):
+    @patch('src.views.VideoView.Tk')
+    def testUpdateTable(self,tk_mock):
         self.view.open_table()      # reset table state
         del self.view.table_window
         self.view.open_table()
