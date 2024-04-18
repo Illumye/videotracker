@@ -2,9 +2,7 @@ import unittest
 import os
 from pyvirtualdisplay import Display
 
-display = Display(visible=0, size=(800, 600))
-display.start()
-os.environ['DISPLAY'] = display.display
+
 
 print(os.environ['DISPLAY'])
 
@@ -15,6 +13,11 @@ from src.models.Point import Point
 
 class TestVideoView(unittest.TestCase):
     def setUp(self):
+        self.display = Display(visible=0, size=(800, 600))
+        self.display.start()
+        os.environ['DISPLAY'] = self.display.display
+
+
         self.root = Tk()
         self.controller_mock = MagicMock()
         self.model_mock = MagicMock()
@@ -22,6 +25,7 @@ class TestVideoView(unittest.TestCase):
 
     def tearDown(self):
         self.root.destroy()
+        self.display.stop()
 
 
     # def testResizeVideo(self):        # doesn't work for some reason
@@ -121,6 +125,10 @@ class TestVideoView(unittest.TestCase):
 
 class TestRerrangeWidgets(unittest.TestCase):
     def setUp(self):
+        self.display = Display(visible=0, size=(800, 600))
+        self.display.start()
+        os.environ['DISPLAY'] = self.display.display
+
         self.root = Tk()
         self.controller_mock = MagicMock()
         self.model_mock = MagicMock()
@@ -132,6 +140,7 @@ class TestRerrangeWidgets(unittest.TestCase):
 
     def tearDown(self):
         self.root.destroy()
+        self.display.stop()
 
     def testRearrangeWidgets(self):
         # Simulate rearranging widgets
