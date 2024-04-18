@@ -4,6 +4,10 @@ from tkinter import Tk, simpledialog, messagebox, filedialog, Canvas, Frame, Top
 from src.views.VideoView import VideoView
 from src.models.Point import Point
 
+class CustomTclError(Exception):
+    pass
+
+@patch('_tkinter.TclError', CustomTclError)
 class TestVideoView(unittest.TestCase):
     def setUp(self):
         self.root = Tk()
@@ -90,8 +94,7 @@ class TestVideoView(unittest.TestCase):
         self.view.open_table()
         self.view.open_table()
 
-    @patch('src.views.VideoView.Tk')
-    def testUpdateTable(self,tk_mock):
+    def testUpdateTable(self):
         self.view.open_table()      # reset table state
         del self.view.table_window
         self.view.open_table()
