@@ -2,7 +2,7 @@ import unittest
 import src.models.FileRepo as FileRepo
 import src.models.VideoModel as VideoModel
 import src.models.Point as Point
-
+from unittest.mock import patch
 
 class TestFileRepo(unittest.TestCase):
     def setUp(self):
@@ -60,6 +60,19 @@ class TestVideoModel(unittest.TestCase):
         points = [point,point2]
         self.video.add_point(point2)
         self.assertEqual(points, self.video.get_points())
+    
+    def testErrorMessage(self):
+        with patch('builtins.print') as mocked_print:
+            self.video.open("nonexistent_video.mp4")
+            mocked_print.assert_called_with("Erreur: Impossible d'ouvrir la vidéo.")
+
+    def testExcept(self):
+        with patch('builtins.print') as mocked_print:
+            self.video.open("nonexistent_video.mp4")
+            a,b = self.video.get_frame()
+            mocked_print.assert_called_with("Erreur: Impossible d'ouvrir la vidÃ©o.")
+            self.assertEqual(a,False)
+            self.assertEqual(b,None)
 
 if __name__ == "__main__":
     unittest.main()

@@ -219,7 +219,7 @@ class VideoView:
         
         for point in points:
             relative_x = point.getX() - origin[0]
-            relative_y = origin[1] - point.getY()
+            relative_y = origin[1] - point.getY()       # big brain moment
             time = point.getTime()
             self.table.insert("", "end", values=(time, relative_y, relative_x))
 
@@ -227,7 +227,7 @@ class VideoView:
         """
         Ouvre une boîte de dialogue pour afficher les valeurs.
         """
-        print("Open table")
+        # print("Open table")
         if not hasattr(self, 'table_window') or not self.table_window.winfo_exists():
             self.table_window = Toplevel(self.window)
             self.table_window.title("Valeurs")
