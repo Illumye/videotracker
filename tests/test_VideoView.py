@@ -1,6 +1,11 @@
 import unittest
 import os
 from pyvirtualdisplay import Display
+
+display = Display(visible=0, size=(800, 600))
+display.start()
+os.environ['DISPLAY'] = display.display
+
 from unittest.mock import MagicMock, patch
 from tkinter import Tk, simpledialog, messagebox, filedialog, Canvas, Frame, Toplevel
 from src.views.VideoView import VideoView
@@ -136,8 +141,6 @@ class TestRerrangeWidgets(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    display = Display(visible=0, size=(800, 600))
-    display.start()
-    os.environ['DISPLAY'] = display.display
+    
     unittest.main()
-    display.stop()
+display.stop()
