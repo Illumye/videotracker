@@ -2,3 +2,4 @@
 .coverage
 .vscode
 .mypy_cache/
+venv/

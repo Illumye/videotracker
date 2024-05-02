@@ -27,6 +27,13 @@ Ce projet est un outil de tracking de vidéos. Il permet de suivre les mouvement
 
 ## Installation
 
+Avant de faire fonctionner l'application, il est recommandé d'initialiser un environnement virtuel.
+
+```bash
+$ python3 -m venv venv
+$ source venv/bin/activate
+```
+
 ### OpenCV
 
 ```bash
