@@ -5,10 +5,6 @@
 - [Description](#description)
 - [Requirements](#requirements)
 - [Installation](#installation)
-    - [OpenCV](#opencv)
-    - [Numpy](#numpy)
-    - [Matplotlib](#matplotlib)
-    - [Tkinter](#tkinter)
 - [Utilisation](#utilisation)
 - [Licence](#licence)
 - [TODO's](#todos)
@@ -27,59 +23,10 @@ Ce projet est un outil de tracking de vidéos. Il permet de suivre les mouvement
 
 ## Installation
 
-Avant de faire fonctionner l'application, il est recommandé d'initialiser un environnement virtuel.
+Pour initialiser un environnement virtuel (si non-existant) et installer les dépendances, exécutez le script `install_deps.sh` :
 
 ```bash
-$ python3 -m venv venv
-$ source venv/bin/activate
-```
-
-### OpenCV
-
-```bash
-$ pip install opencv-python
-```
-
-**Debian / Debian-based :**
-
-```bash
-$ sudo apt-get install python3-opencv
-```
-
-### Numpy
-
-```bash
-$ pip install numpy
-```
-
-**Debian / Debian-based :**
-
-```bash
-$ sudo apt-get install python3-numpy
-```
-
-### Matplotlib
-
-```bash
-$ pip install matplotlib
-```
-
-**Debian / Debian-based :**
-
-```bash
-$ sudo apt-get install python3-matplotlib
-```
-
-### Tkinter
-
-```bash
-$ pip install tk
-```
-
-**Debian / Debian-based :**
-
-```bash
-$ sudo apt-get install python3-tk
+$ ./src/install_deps.sh
 ```
 
 ## Utilisation
