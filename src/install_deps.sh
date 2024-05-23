@@ -25,7 +25,7 @@ if [ $VIRTUAL_ENV ]; then
 
 else
     echo "Non-existent virtual environment. Creating one..."
-    python -m venv venv
+    python3 -m venv venv
     if [ $? -eq 0 ]; then
         echo "Created."
         echo "Please activate the virtual environment and re-run the script."
