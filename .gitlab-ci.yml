@@ -1,7 +1,7 @@
 default:
   tags:
     - CREMI
-    - Focal/Fossa
+    - Noble/Numbat
 
 stages:
   - build
