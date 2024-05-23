@@ -219,9 +219,9 @@ class VideoView:
         
         for point in points:
             relative_x = point.getX() - origin[0]
-            relative_y = origin[1] - point.getY()       # big brain moment
+            relative_y = origin[1] - point.getY()
             time = point.getTime()
-            self.table.insert("", "end", values=(time, relative_y, relative_x))
+            self.table.insert("", "end", values=(time, relative_x, relative_y))
 
     def open_table(self):
         """

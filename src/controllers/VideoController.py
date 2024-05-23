@@ -348,7 +348,7 @@ class VideoController:
         """
         file_repo = FileRepo(file_name, path)
         temps = [point.getTime() for point in self.model.points]
-        points = [point for point in self.model.points]
+        points = [Point(point.getX() - self.origin[0], self.origin[1] - point.getY(), point.getTime()) for point in self.model.points]
         file_repo.export2CSV(temps, points)
         
     def save_points_to_csv_dialog(self):
