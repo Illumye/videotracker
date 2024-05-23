@@ -11,6 +11,9 @@ stages:
 build-job1:
   stage: build
   script:
+    - ./src/install_deps.sh
+    - source venv/bin/activate
+    - ./src/install_deps.sh
     - pip install coverage
     - pip install pyvirtualdisplay
   
@@ -22,5 +25,5 @@ test-job1:
 coverage-job1:
   stage: coverage
   script:
-    - coverage run -m unittest discover -s tests -p "test_*.py"
-    - coverage report -m -i
+    - python3 -m coverage run -m unittest discover -s tests -p "test_*.py"
+    - python3 -m coverage report -m -i
