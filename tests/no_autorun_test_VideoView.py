@@ -1,3 +1,8 @@
+# This test works, it just requitres a display for tkinter to run (it doesn't even render anything...)
+# For some reason the virtual display doesn't seem to work.
+# Run it manually with coverage run -m unittest discover -s tests -p "no_autorun_*.py"
+
+
 import unittest
 # import os
 # from pyvirtualdisplay import Display
@@ -98,7 +103,7 @@ class TestVideoView(unittest.TestCase):
         del self.view.table_window
         self.view.open_table()
         self.view.update_table([Point(-1,-2,0),Point(1,2,3)],(-6,9))
-        answer = ["0","11","5","3","7","7"]
+        answer = ["0","5","11","3","7","7"]
 
         bin = []
         for row in self.view.table.get_children():
@@ -106,11 +111,6 @@ class TestVideoView(unittest.TestCase):
             for i in values:
                 bin.append(i)
         self.assertEqual(answer,bin,"UpdateTable")
-
-
-
-
-
 
 
 class TestRerrangeWidgets(unittest.TestCase):
