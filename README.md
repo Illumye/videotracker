@@ -1,5 +1,7 @@
 # VideoTracker_G4
 
+[![Videotracker Tests](https://github.com/Illumye/videotracker/actions/workflows/python-app.yml/badge.svg)](https://github.com/Illumye/videotracker/actions/workflows/python-app.yml)
+
 ## Sommaire
 
 - [Description](#description)
