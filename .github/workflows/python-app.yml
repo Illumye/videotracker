@@ -25,7 +25,7 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
-        ./src/install.deps.sh
+        ./src/install_deps.sh
         source venv/bin/activate
         ./src/install_deps.sh
         pip install coverage
